@@ -7,6 +7,10 @@ ns: &ns {
 	status = "okay";
 };
 
+&gpio7 {
+	status = "okay";
+};
+
 sdhc: &sdhc {
 	status = "okay";
 

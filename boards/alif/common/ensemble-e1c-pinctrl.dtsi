@@ -688,17 +688,20 @@
 		};
 	};
 
-	pinctrl_sdmmc:pinctrl_sdmmc {
+	pinctrl_sdmmc: pinctrl_sdmmc {
 		group0 {
-			pinmux =	<PINMUX_PIN(PIN_P2_6, 5)>,
-						<PINMUX_PIN(PIN_P2_7, 5)>,
-						<PINMUX_PIN(PIN_P6_0, 5)>,
-						<PINMUX_PIN(PIN_P6_1, 5)>,
-						<PINMUX_PIN(PIN_P6_2, 5)>,
-						<PINMUX_PIN(PIN_P6_3, 5)>,
-						<PINMUX_PIN(PIN_P6_5, 0)>;
+			pinmux =	<PIN_P2_6__SD_CMD_B>,
+						<PIN_P2_7__SD_CLK_B>,
+						<PIN_P6_0__SD_D0_B>,
+						<PIN_P6_1__SD_D1_B>,
+						<PIN_P6_2__SD_D2_B>,
+						<PIN_P6_3__SD_D3_B>;
 			read-enable = <0x1>;
-			drive-strength = <8>;
+			drive-strength = <12>;
+		};
+		group1 {
+			pinmux =	<PIN_P6_5__GPIO>,
+						<PIN_P7_0__GPIO>;
 		};
 	};
 };

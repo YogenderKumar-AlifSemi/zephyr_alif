@@ -58,6 +58,10 @@
 	status = "okay";
 };
 
+&sdhc {
+	reset-gpios = <&gpio7 0 GPIO_ACTIVE_HIGH>;
+};
+
 &uart2 {
 	status = "okay";
 };

@@ -884,6 +884,16 @@ static DEVICE_API(video, isp_driver_api) = {
 #endif /* CONFIG_POLL */
 };
 
+inline int z_impl_register_ae_status_callback(const struct device *dev,
+		isp_ae_status_cb ae_status_cb)
+{
+	struct isp_data *data = dev->data;
+
+	data->init_cfg.ae_status_cb = ae_status_cb;
+
+	return 0;
+}
+
 static int isp_configure(const struct device *dev)
 {
 	const struct isp_config *config = dev->config;

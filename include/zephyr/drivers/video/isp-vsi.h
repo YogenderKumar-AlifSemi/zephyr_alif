@@ -88,15 +88,26 @@ struct channel_parameters {
 	uint8_t channel_idx;
 };
 
+/**
+ * @brief Callback invoked each frame end with the current AE stability status.
+ *
+ * Called from interrupt bottom-half context (workqueue).
+ *
+ * @param ae_stable  1 if AE has converged, 0 otherwise.
+ */
+typedef void (*isp_ae_status_cb)(uint8_t ae_stable);
+
 struct isp_config_params {
 	struct port_parameters port;
 	struct channel_parameters channel;
+	isp_ae_status_cb ae_status_cb;
 };
 
 int isp_vsi_init(struct isp_config_params *init_cfg);
 int isp_vsi_update_cfg(struct isp_config_params *init_cfg);
 int isp_vsi_uninit(struct isp_config_params *init_cfg);
-void isp_vsi_bottom_half(struct isp_config_params *init_cfg, uint32_t mi_mis);
+void isp_vsi_bottom_half(const struct device *dev,
+		struct isp_config_params *init_cfg, uint32_t mi_mis);
 int isp_vsi_start(struct isp_config_params *init_cfg);
 int isp_vsi_stop(struct isp_config_params *init_cfg);
 int isp_vsi_enqueue(struct isp_config_params *init_cfg,
@@ -104,8 +115,13 @@ int isp_vsi_enqueue(struct isp_config_params *init_cfg,
 int isp_vsi_dequeue(struct isp_config_params *init_cfg,
 		struct video_buffer *buf);
 
+__syscall int register_ae_status_callback(const struct device *dev,
+		isp_ae_status_cb ae_status_cb);
+
 #ifdef __cplusplus
 }
 #endif
+
+#include <zephyr/syscalls/isp-vsi.h>
 
 #endif /* __ZEPHYR_INCLUDE_DRIVERS_ISP_VSI_H__ */
